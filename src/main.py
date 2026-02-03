@@ -2,7 +2,9 @@ import logging
 from src.ingestion import load_and_optimize_data
 from src.metrics import *
 from src import vizualization as viz
-from src import features  # Import the new module
+from src import features 
+from src import eda
+from src.data_factory import *
 
 logging.basicConfig(level=logging.INFO, format = "%(asctime)s [%(levelname)s] %(message)s")
 
@@ -50,6 +52,27 @@ def run_pipeline():
 
 
     feature_matrix.to_csv("outputs/feature_matrix.csv")
+
+
+    # ... (Load and Clean Data steps) ...
+    df_raw = load_and_optimize_data()
+    df_clean = clean_data_for_metrics(df_raw)
+
+
+    logging.info("Creating Training Set with Time-Split...")
+    
+
+    training_cutoff = pd.Timestamp('2011-09-01')
+    
+    train_df = create_churn_dataset(df_clean, df_raw, cutoff_date=training_cutoff)
+    
+
+    train_df.to_csv("outputs/modeling_data.csv")
+    
+
+    print("\n--- Correlation Analysis ---")
+    eda.plot_churn_separation(train_df)
+
 
 if __name__ == "__main__":
     run_pipeline()

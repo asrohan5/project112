@@ -19,8 +19,6 @@ def plot_retention_heatmap(retention_matrix):
     save_to = os.path.join(PLOT_PATH, '1_Customer_Retention_Rate.png')
     plt.savefig(save_to)
 
-    plt.show()
-
 
 def plot_segement_distribution(rfm_df):
     plt.figure(figsize=(12,8))
@@ -38,7 +36,6 @@ def plot_segement_distribution(rfm_df):
     save_to = os.path.join(PLOT_PATH, '2_Customer_Segmentation_Distribution.png')
     plt.savefig(save_to)
 
-    plt.show()
 
 def plot_revenue_growth(exec_summary):
     plot_df = exec_summary.iloc[:-1].copy()
@@ -57,7 +54,6 @@ def plot_revenue_growth(exec_summary):
     save_to = os.path.join(PLOT_PATH, '3_Monthly_Revenue_Growth_Velocity.png')
     plt.savefig(save_to)
 
-    plt.show()
 
 def plot_product_performance(df):
     prof_perf = df.groupby('Description').agg({'Quantity':'sum', 'Price': 'mean'}).reset_index()
