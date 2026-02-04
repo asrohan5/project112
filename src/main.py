@@ -5,6 +5,7 @@ from src import vizualization as viz
 from src import features 
 from src import eda
 from src.data_factory import *
+from src import model as ml_engine
 
 logging.basicConfig(level=logging.INFO, format = "%(asctime)s [%(levelname)s] %(message)s")
 
@@ -73,6 +74,16 @@ def run_pipeline():
     print("\n--- Correlation Analysis ---")
     eda.plot_churn_separation(train_df)
 
+
+    try:
+        df_model = pd.read_csv('outputs/modeling_data.csv', index_col=0)
+    except FileNotFoundError:
+        print('Error: Run other steps first to generate modeling_data.csv')
+        return
+    
+    trained_model, y_test, y_pred, feat_imp = ml_engine.train_baseline_model(df_model)
+
+    ml_engine.plot_confusion_matrix(y_test=y_test, y_pred=y_pred)
 
 if __name__ == "__main__":
     run_pipeline()
