@@ -8,6 +8,7 @@ from src import eda
 from src.data_factory import create_churn_dataset
 from src import model as ml_engine
 from src import model_advanced
+from src import serialization
 
 
 RUN_VIZ_AND_REPORTING = False
@@ -78,8 +79,11 @@ def run_pipeline():
     
         if RUN_ADVANCED_MODEL:
             logging.info('Tarining Advanced Random Forest (Grid Search)...')
-            rf_model, feature_names = model_advanced.train_random_forest(df_model)
+            rf_model, scaler, feature_names = model_advanced.train_random_forest(df_model)
             model_advanced.plot_feature_importance_rf(rf_model, feature_names)
+
+            logging.info("serialization model for production:::")
+            serialization.save_production_artifacts(rf_model, scaler, feature_names)
     
     logging.info('+++++ Pipeline Execution Completed Successfully +++++')
 

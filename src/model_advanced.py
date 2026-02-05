@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
+from sklearn.preprocessing import StandardScaler
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import GridSearchCV, train_test_split
 from sklearn.metrics import classification_report, roc_auc_score
@@ -11,6 +12,10 @@ def train_random_forest(df):
     target = df['is_churned']
 
     X_train, X_test, y_train, y_test = train_test_split(features, target, test_size=0.2, random_state=42)
+
+    scaler = StandardScaler()
+    X_train_scaled = scaler.fit_transform(X_train)
+    X_test_scaled = scaler.transform(X_test)
 
 
     param_grid = {'n_estimators':[50,100,200],
@@ -34,7 +39,7 @@ def train_random_forest(df):
     print(classification_report(y_test, y_pred))
     print(f'New ROC-AUC Score: {roc_auc_score(y_test, y_prob):.4f}')
 
-    return best_model, features.columns
+    return best_model, scaler, features.columns
 
 def plot_feature_importance_rf(model, feature_names):
 
