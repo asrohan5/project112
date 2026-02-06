@@ -16,8 +16,10 @@ def save_production_artifacts(model, scaler, feature_columns):
     logging.info("model artifacts saved :::")
 
 def load_production_model():
-    if os.path.exists('models/retail_churn_v1.pkl'):
-        return joblib.load('models/retail_churn+v1.pkl')
-    else:
+    if not os.path.exists('models/retail_churn_v1.pkl'):
         raise FileNotFoundError("no production model found")
     
+
+    logging.info(f'loading model from model/')
+    artifacts= joblib.load('models/retaill_churn_v1.pkl')
+    return artifacts
