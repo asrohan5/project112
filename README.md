@@ -1,4 +1,4 @@
-# 🛒 Retail Intelligence Engine: Predictive Churn System
+# Retail Intelligence Engine: Predictive Churn System
 
 
 ## Business Overview
