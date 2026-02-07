@@ -35,7 +35,7 @@ class CustomerState(BaseModel):
 
 
 #Prediction
-@app.post("/prediction_churn")
+@app.post("/predict_churn")
 
 def predict(customer: CustomerState):
     if not model:
